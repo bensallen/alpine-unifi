@@ -15,22 +15,30 @@ source="http://dl.ubnt.com/unifi/${pkgver}/unifi_sysvinit_all.deb $pkgname.initd
 builddir="$srcdir/"
 prepare() {
 	cd "$builddir"
+	# Extract the deb
 	ar -x unifi_sysvinit_all.deb
 }
 build() {
 	cd "$builddir"
-
 }
 
 package() {
 	cd "$builddir"
 	mkdir -p "$pkgdir"
+
+	# Extract the data portion of the Deb
 	tar -C "$pkgdir" -xf data.tar.xz
+
+	# Remove uneeded files
 	rm -rf "$pkgdir"/lib "$pkgdir"/etc/init.d/unifi
+
+	# Symlink in directories to where UniFi expects them
 	ln -s /usr/bin/mongod "$pkgdir"/usr/lib/unifi/bin/mongod
 	ln -s /var/lib/unifi "$pkgdir"/usr/lib/unifi/data
 	ln -s /var/log/unifi "$pkgdir"/usr/lib/unifi/logs
 	ln -s /var/run/unifi "$pkgdir"/usr/lib/unifi/run
+
+	# Install init script
 	install -Dm755 "$srcdir"/unifi.initd "$pkgdir"/etc/init.d/unifi
 	install -Dm644 "$srcdir"/unifi.confd "$pkgdir"/etc/conf.d/unifi
 }
