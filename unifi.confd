@@ -1,0 +1,6 @@
+UNIFI_EXEC="/usr/bin/mongos"
+UNIFI_BASE="/usr/lib/unifi"
+UNIFI_RUN="/var/run/unifi"
+
+# Set extra options here
+UNIFI_OPTIONS="-Xmx1024M"

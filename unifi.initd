@@ -1,0 +1,30 @@
+#!/sbin/openrc-run
+
+depend() {
+    need net
+}
+
+start() {
+    ebegin "Starting ${SVCNAME}"
+    start-stop-daemon --background --start --make-pidfile \
+        --pidfile ${UNIFI_RUN:-/var/run/unifi}/${SVCNAME}.pid \
+	--chdir ${UNIFI_BASE:-/usr/lib/unifi} \
+        --exec java -- ${UNIFI_OPTIONS} -jar ${UNIFI_BASE}/lib/ace.jar start
+    eend $?
+}
+
+stop() {
+    ebegin "Stopping ${SVCNAME}"
+    (cd ${UNIFI_BASE:-/usr/lib/unifi} && java ${UNIFI_OPTIONS} -jar ${UNIFI_BASE}/lib/ace.jar stop)
+    for i in `seq 1 10` ; do
+	[ -d "/proc/$(cat ${UNIFI_RUN:-/var/run/unifi}/${SVCNAME}.pid)" ] && break
+	# graceful shutdown
+	[ $i -gt 1 ] && [ -d "${UNIFI_RUN:-/var/run/unifi}" ] && touch "${UNIFI_RUN:-/var/run/unifi}/server.stop" || true
+	# force shutdown
+	[ $i -gt 7 ] && kill $(cat "${UNIFI_RUN:-/var/run/unifi}/${SVCNAME}.pid") || true
+	sleep 1
+    done
+    rm -f ${UNIFI_RUN:-/var/run/unifi}/${SVCNAME}.pid
+    
+    eend $?
+}
