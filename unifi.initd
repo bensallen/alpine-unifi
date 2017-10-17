@@ -6,6 +6,7 @@ depend() {
 
 start() {
     ebegin "Starting ${SVCNAME}"
+    mkdir -p ${UNIFI_RUN:-/var/run/unifi}
     start-stop-daemon --background --start --make-pidfile \
         --pidfile ${UNIFI_RUN:-/var/run/unifi}/${SVCNAME}.pid \
 	--chdir ${UNIFI_BASE:-/usr/lib/unifi} \
@@ -17,7 +18,8 @@ stop() {
     ebegin "Stopping ${SVCNAME}"
     (cd ${UNIFI_BASE:-/usr/lib/unifi} && java ${UNIFI_OPTIONS} -jar ${UNIFI_BASE}/lib/ace.jar stop)
     for i in `seq 1 10` ; do
-	[ -d "/proc/$(cat ${UNIFI_RUN:-/var/run/unifi}/${SVCNAME}.pid)" ] && break
+	[ -f "${UNIFI_RUN:-/var/run/unifi}/${SVCNAME}.pid" ] || break
+	[ -d "/proc/$(cat ${UNIFI_RUN:-/var/run/unifi}/${SVCNAME}.pid)" ] || break
 	# graceful shutdown
 	[ $i -gt 1 ] && [ -d "${UNIFI_RUN:-/var/run/unifi}" ] && touch "${UNIFI_RUN:-/var/run/unifi}/server.stop" || true
 	# force shutdown
