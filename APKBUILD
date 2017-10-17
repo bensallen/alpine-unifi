@@ -1,13 +1,13 @@
 # Contributor:
 # Maintainer:
 pkgname=unifi
-pkgver=5.4.16
+pkgver=5.5.24
 pkgrel=0
 pkgdesc="UniFi Controller"
 url="https://www.ubnt.com/enterprise/software/"
 arch="x86_64"
 license="custom"
-depends="mongodb openjdk8-jre-base"
+depends="mongodb openjdk8-jre-base gcompat"
 makedepends=""
 install=""
 subpackages="$pkgname-doc $pkgname-firmware:firmware:noarch"
@@ -54,6 +54,6 @@ firmware() {
 	mv "$pkgdir"/usr/lib/unifi/dl/firmware "$subpkgdir"/usr/lib/unifi/dl/firmware
 }
 
-sha512sums="e363c38b188280a0cf0d1a99f7a6d9bf659e173619218169a7cf3ecbcfaa54650da275ff781a099b9a1fc64bf236a7358931a5df5a385c6b8af4f33ce15e6d9c  unifi-5.4.16.deb
-c2fdcfa6ff596afeb1feb25a6c06f4ebc79a266b784e4ab3b6c97379179286c95c2070529bc1b83fedf2f19f768b170a952230596e4c8c9eb87c46d4ac4d9946  unifi.initd
+sha512sums="cd5de5e9952b07afa458ff9b7f5f025f88212a15aaa7381a78aeba1e6909b7e2e52b3305fee45e8fe2dbd7c308897a58e1248afb1726f57829a9e05f7ecaa7a4  unifi-5.5.24.deb
+7cfd1b9721392e2508f3d8203040ec14cf5c52f1741c57bd5ef6ad8c215bf0fcf9ce8b5f7fbceb88d263f7b5e53da79cce737e2020ec7be4669ae64a4228074b  unifi.initd
 0bce21316834d423c0bbebb5d4513bbd6d0ecc7ea99e34487da9955fcab71ec9a5f5cd93c896192868a8fc5e5c585e3b01d623d2f835d163f47e221a0688c3d1  unifi.confd"
