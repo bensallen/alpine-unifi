@@ -1,7 +1,7 @@
 # Contributor:
 # Maintainer:
 pkgname=unifi
-pkgver=5.5.24
+pkgver=5.8.28
 pkgrel=0
 pkgdesc="UniFi Controller"
 url="https://www.ubnt.com/enterprise/software/"
@@ -10,7 +10,7 @@ license="custom"
 depends="mongodb openjdk8-jre-base gcompat"
 makedepends=""
 install=""
-subpackages="$pkgname-doc $pkgname-firmware:firmware:noarch"
+subpackages="$pkgname-openrc $pkgname-doc $pkgname-firmware:firmware:noarch"
 source="$pkgname-$pkgver.deb::http://dl.ubnt.com/unifi/${pkgver}/unifi_sysvinit_all.deb $pkgname.initd $pkgname.confd"
 builddir="$srcdir/"
 options="!check"
@@ -31,7 +31,7 @@ package() {
 	tar -C "$pkgdir" -xf data.tar.xz
 
 	# Remove uneeded files
-	rm -rf "$pkgdir"/lib "$pkgdir"/etc/init.d/unifi "$pkgdir"/usr/lib/unifi/lib/native/Mac "$pkgdir"/usr/lib/unifi/lib/native/Windows "$pkgdir"/usr/lib/unifi/lib/native/Linux/armhf/libubnt_webrtc_jni.so
+	rm -rf "$pkgdir"/lib "$pkgdir"/etc/init.d/unifi "$pkgdir"/usr/lib/unifi/lib/native/Mac "$pkgdir"/usr/lib/unifi/lib/native/Windows "$pkgdir"/usr/lib/unifi/lib/native/Linux/x86_64/libubnt_sdnotify_jni.so "$pkgdir"/usr/lib/unifi/lib/native/Linux/armhf "$pkgdir"/usr/lib/unifi/lib/native/Linux/armv7 "$pkgdir"/usr/lib/unifi/lib/native/Linux/aarch64
 
 	install -dDm755 "$pkgdir"/var/log/unifi
 	install -dDm755 "$pkgdir"/var/run/unifi
@@ -54,6 +54,6 @@ firmware() {
 	mv "$pkgdir"/usr/lib/unifi/dl/firmware "$subpkgdir"/usr/lib/unifi/dl/firmware
 }
 
-sha512sums="cd5de5e9952b07afa458ff9b7f5f025f88212a15aaa7381a78aeba1e6909b7e2e52b3305fee45e8fe2dbd7c308897a58e1248afb1726f57829a9e05f7ecaa7a4  unifi-5.5.24.deb
-7cfd1b9721392e2508f3d8203040ec14cf5c52f1741c57bd5ef6ad8c215bf0fcf9ce8b5f7fbceb88d263f7b5e53da79cce737e2020ec7be4669ae64a4228074b  unifi.initd
+sha512sums="9f2679f4e95ee64732a1d278a47bebbf993030a2ca254a43e9b2e9b5c9bcbe011eefda4f55526afec44f82b1fa3279df1162b47de013efc9d1354a5237651206  unifi-5.8.28.deb
+c490f7ba0da084992667370607091ca607746231707237b133b45453c02974c5be958eede530d3a69aee536b413ad38b0b1e1ca6d0ba9a3dfbf7fc0010e04d1f  unifi.initd
 0bce21316834d423c0bbebb5d4513bbd6d0ecc7ea99e34487da9955fcab71ec9a5f5cd93c896192868a8fc5e5c585e3b01d623d2f835d163f47e221a0688c3d1  unifi.confd"
